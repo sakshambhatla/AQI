@@ -2,6 +2,8 @@ from bs4 import BeautifulSoup
 from IPython.display import HTML
 import urllib, re
 import string
+import smtplib
+import json
 
 class parseAirGov:
     def __init__(self):
@@ -34,3 +36,14 @@ class parseAirGov:
 obj1 = parseAirGov()
 myList = obj1.getToday()
 print myList
+
+
+with open("/Users/saksbhat/Documents/GIT/AQI/AQI/sample_config.json") as data_file:
+    jsonData = json.load(data_file)
+print type(jsonData['sender']['password'].encode('utf-8'))
+server = smtplib.SMTP('smtp.gmail.com', 587)
+server.starttls()
+server.login(jsonData['sender']['email'].encode('utf-8'), jsonData['sender']['password'].encode('utf-8'))
+
+server.sendmail(jsonData['sender']['password'].encode('utf-8'), jsonData['receiver'].encode('utf-8'), "AQI is " + str(myList[0]) + " " + str(myList[1]))
+server.quit()

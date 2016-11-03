@@ -1,0 +1,8 @@
+{
+    "sender": {
+        "email":"sender@gmail.com",
+        "password":"my_password"
+    },
+    "receiver":"receiver@gmail.com",
+    "subject":"Air Quality Alert"
+}
