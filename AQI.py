@@ -5,6 +5,9 @@ import string
 import smtplib
 import json
 
+import db_api
+dbObj = db_api.dbClass()
+
 class parseAirGov:
     def __init__(self):
         r = urllib.urlopen('http://airnow.gov/index.cfm?action=airnow.local_city&cityid=114').read()
@@ -47,3 +50,10 @@ server.login(jsonData['sender']['email'].encode('utf-8'), jsonData['sender']['pa
 
 server.sendmail(jsonData['sender']['password'].encode('utf-8'), jsonData['receiver'].encode('utf-8'), "AQI is " + str(myList[0]) + " " + str(myList[1]))
 server.quit()
+
+#dbObj.createTable()
+dbObj.addEntry(int(myList[0]), str(myList[1]))
+allRows = dbObj.getEntry()
+
+for row in allRows:
+    print "AQI is ", row[1], " with message ", row[2]
